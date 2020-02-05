@@ -84,12 +84,31 @@ static void send_cmd()
         // hack
         usleep(10000);
 
-        // packet
-        vgpi_set_packet_size(buf, sizeof(buf));
-        vgpi_set_packet_type(buf, VGPI_TYPE_SET);
-        vgpi_set_type_specific(buf, button);
-        vgpi_set_packet_uint16(buf, value);
-        send(sockfd, buf, sizeof(buf), 0);
+        if((value == 0)||(value == 1)){
+                // packet
+                vgpi_set_packet_size(buf, sizeof(buf));
+                vgpi_set_packet_type(buf, VGPI_TYPE_SET);
+                vgpi_set_type_specific(buf, button);
+                vgpi_set_packet_uint16(buf, value);
+                send(sockfd, buf, sizeof(buf), 0);
+        } else {
+                // packet
+                vgpi_set_packet_size(buf, sizeof(buf));
+                vgpi_set_packet_type(buf, VGPI_TYPE_SET);
+                vgpi_set_type_specific(buf, button);
+                vgpi_set_packet_uint16(buf, 1);
+                send(sockfd, buf, sizeof(buf), 0);
+
+                usleep(value*1000);
+
+                // packet
+                vgpi_set_packet_size(buf, sizeof(buf));
+                vgpi_set_packet_type(buf, VGPI_TYPE_SET);
+                vgpi_set_type_specific(buf, button);
+                vgpi_set_packet_uint16(buf, 0);
+                send(sockfd, buf, sizeof(buf), 0);
+        }
+        
 
         close(sockfd);
 }
