@@ -109,7 +109,9 @@ static void send_cmd()
                 send(sockfd, buf, sizeof(buf), 0);
         }
         
-
+        // hack
+        usleep(10000);
+        
         close(sockfd);
 }
 
