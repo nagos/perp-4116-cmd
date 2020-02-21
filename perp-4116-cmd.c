@@ -110,7 +110,7 @@ static void send_cmd()
         }
         
         // hack
-        usleep(10000);
+        sleep(1);
         
         close(sockfd);
 }
